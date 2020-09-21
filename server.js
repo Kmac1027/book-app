@@ -9,12 +9,11 @@ const app = express();
 app.use(cors());
 const superagent = require("superagent");
 let pg = require("pg");
-const { response } = require("express");
-const dataBaseUrl = process.env.DATABASE_URL;
-const client = new pg.Client(dataBaseUrl);
-client.on('error', (err) => {
-  console.err(err);
-});
+// const dataBaseUrl = process.env.DATABASE_URL;
+// const client = new pg.Client(dataBaseUrl);
+// client.on('error', (err) => {
+//   console.err(err);
+// });
 
 // middleware
 app.use(express.urlencoded({extended:true}));
@@ -25,7 +24,7 @@ app.set('view engine', 'ejs');
 app.get('/test', homePage);
 app.get('/searches/new', searchHandle);
 
-response.render('pages/searches/new.ejs');
+
 // Route functions
 function searchHandle(request, response) {
   const searchQuery = request.body.search[0];
@@ -37,6 +36,7 @@ function searchHandle(request, response) {
     .then(bookInfo => {
       const bookArray = bookInfo.body.items;
       const finalBookArray = bookArray.map(book => new Book(book));
+      response.render('pages/searches/new.ejs', {finalBookArray: finalBookArray});
     })
 }
 
@@ -51,13 +51,17 @@ function Book(book) {
   // this.image = book.image;
 }
 // Server is Listening
-client
-  .connect()
-  .then(startServer)
-  .catch((e) => console.log(e));
+// client
+//   .connect()
+//   .then(startServer)
+//   .catch((e) => console.log(e));
 
-function startServer() {
-  app.listen(PORT, () => {
-    console.log(`Server is ALIVE and listening on port ${PORT}`);
-  });
-}
+// function startServer() {
+//   app.listen(PORT, () => {
+//     console.log(`Server is ALIVE and listening on port ${PORT}`);
+//   });
+// }
+
+app.listen(PORT, () => {
+  console.log(`listening on ${PORT}`);
+})
