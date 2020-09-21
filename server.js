@@ -55,7 +55,7 @@ function Book(book) {
   this.title = book.volumeInfo.title ? book.volumeInfo.title : 'book not found';
   this.author = book.volumeInfo.authors ? book.volumeInfo.authors : 'author not found';
   this.description = book.volumeInfo.description;
-  this.image = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : https://i.imgur.com/J5LVHEL.jpg; 
+  this.image = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : "https://i.imgur.com/J5LVHEL.jpg"; 
 }
 // Server is Listening
 // client
