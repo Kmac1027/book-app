@@ -15,16 +15,14 @@ const client = new pg.Client(dataBaseUrl);
 client.on('error', (err) => {
   console.err(err);
 });
-// tells express to looks for a 'views' folder
-app.set('view engine', 'ejs');
 
 // middleware
-app.set('view engine', 'ejs');
-app.use(express.static('./public/styles'));
 app.use(express.urlencoded({extended:true}));
+app.use(express.static('./public'));
+app.set('view engine', 'ejs');
 
 // Routes
-app.get('/', homePage);
+app.get('/test', homePage);
 
 
 // Route functions
@@ -32,8 +30,6 @@ app.get('/', homePage);
 function homePage(request, response) {
 response.status(200).render('pages/index');
 }
-
-
 
 
 // Server is Listening
