@@ -24,6 +24,7 @@ app.set('view engine', 'ejs');
 app.get('/', homePage);
 app.get('/searches/new', renderSearchPage);
 app.post('/searches', searchHandle);
+app.get('*', errorHandler);
 
 // Route functions
 function searchHandle(request, response) {
@@ -40,6 +41,10 @@ function searchHandle(request, response) {
       const finalBookArray = bookArray.map(book => new Book(book));
       response.render('pages/searches/show.ejs', {finalBookArray: finalBookArray});
     })
+    .catch(error) {
+      console.error('error', error); 
+      response.status(500).send('Unable to process request, please try again.');
+    }
 }
 
 function renderSearchPage(request, response) {
@@ -57,6 +62,11 @@ function Book(book) {
   this.description = book.volumeInfo.description;
   this.image = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : "https://i.imgur.com/J5LVHEL.jpg"; 
 }
+
+function errorHandler(request, respond) {
+  respond.status(404).send('Unable to process request, please try again.');
+}
+
 // Server is Listening
 // client
 //   .connect()
