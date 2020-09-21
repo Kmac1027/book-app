@@ -21,12 +21,13 @@ app.use(express.static('./public'));
 app.set('view engine', 'ejs');
 
 // Routes
-app.get('/test', homePage);
-app.get('/searches/new', searchHandle);
-
+app.get('/', homePage);
+app.get('/searches/new', renderSearchPage);
+app.post('/searches', searchHandle);
 
 // Route functions
 function searchHandle(request, response) {
+  // console.log(request.body);
   const searchQuery = request.body.search[0];
   const searchType = request.body.search[1];
   let url = 'https://www.googleapis.com/books/v1/volumes?q=';
@@ -34,10 +35,15 @@ function searchHandle(request, response) {
   if(searchType === 'author'){ url += `+inauthor:${searchQuery}`}
   superagent.get(url)
     .then(bookInfo => {
+      // console.log(bookInfo.body.items[0].volumeInfo.imageLinks);
       const bookArray = bookInfo.body.items;
       const finalBookArray = bookArray.map(book => new Book(book));
-      response.render('pages/searches/new.ejs', {finalBookArray: finalBookArray});
+      response.render('pages/searches/show.ejs', {finalBookArray: finalBookArray});
     })
+}
+
+function renderSearchPage(request, response) {
+  response.status(200).render('pages/searches/new.ejs');
 }
 
 function homePage(request, response) {
@@ -46,9 +52,10 @@ response.status(200).render('pages/index');
 
 // Constructor Functions
 function Book(book) {
-  this.title = book.title;
-  this.author = book.author;
-  // this.image = book.image;
+  this.title = book.volumeInfo.title ? book.volumeInfo.title : 'book not found';
+  this.author = book.volumeInfo.authors ? book.volumeInfo.authors : 'author not found';
+  this.description = book.volumeInfo.description;
+  this.image = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : https://i.imgur.com/J5LVHEL.jpg; 
 }
 // Server is Listening
 // client
