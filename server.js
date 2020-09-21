@@ -25,17 +25,31 @@ app.set('view engine', 'ejs');
 app.get('/test', homePage);
 app.get('/searches/new', searchHandle);
 
-
+response.render('pages/searches/new.ejs');
 // Route functions
 function searchHandle(request, response) {
-  (console.log('hello searchHandle'));
+  const searchQuery = request.body.search[0];
+  const searchType = request.body.search[1];
+  let url = 'https://www.googleapis.com/books/v1/volumes?q=';
+  if(searchType === 'title'){ url += `+intitle:${searchQuery}`}
+  if(searchType === 'author'){ url += `+inauthor:${searchQuery}`}
+  superagent.get(url)
+    .then(bookInfo => {
+      const bookArray = bookInfo.body.items;
+      const finalBookArray = bookArray.map(book => new Book(book));
+    })
 }
 
 function homePage(request, response) {
 response.status(200).render('pages/index');
 }
 
-
+// Constructor Functions
+function Book(book) {
+  this.title = book.title;
+  this.author = book.author;
+  // this.image = book.image;
+}
 // Server is Listening
 client
   .connect()
