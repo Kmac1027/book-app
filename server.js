@@ -23,9 +23,13 @@ app.set('view engine', 'ejs');
 
 // Routes
 app.get('/test', homePage);
+app.get('/searches/new', searchHandle);
 
 
 // Route functions
+function searchHandle(request, response) {
+  (console.log('hello searchHandle'));
+}
 
 function homePage(request, response) {
 response.status(200).render('pages/index');
