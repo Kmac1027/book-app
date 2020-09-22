@@ -35,7 +35,7 @@ A basic full-stack application for a book list which will include the ability to
     - **npm init -y** - This will create **package.json** file.
     - **npm i** - Install *node_modules* for **express**, **dontenv**, **ejs**, **pg**, **superagent** and **cors**.
 
-### Time Estimate: Lab 06
+### Time Estimate: Lab 11
 
 - Number and name of feature: #1 Configuration & Repository Set-Up
 Estimate of time needed to complete: 30 minutes
