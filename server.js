@@ -9,11 +9,10 @@ const app = express();
 app.use(cors());
 const superagent = require("superagent");
 let pg = require("pg");
-// const dataBaseUrl = process.env.DATABASE_URL;
-// const client = new pg.Client(dataBaseUrl);
-// client.on('error', (err) => {
-//   console.err(err);
-// });
+const client = new pg.Client(process.env.DATABASE_URL);
+client.on('error', error => {
+  console.log(error);
+});
 
 // middleware
 app.use(express.urlencoded({ extended: true }));
@@ -67,18 +66,13 @@ function errorHandler(request, respond) {
   respond.status(404).send('Unable to process request, please try again.');
 }
 
-// Server is Listening
-// client
-//   .connect()
-//   .then(startServer)
-//   .catch((e) => console.log(e));
+client.connect()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`listening on ${PORT}`);
+    })
+  })
 
-// function startServer() {
-//   app.listen(PORT, () => {
-//     console.log(`Server is ALIVE and listening on port ${PORT}`);
-//   });
-// }
-
-app.listen(PORT, () => {
-  console.log(`listening on ${PORT}`);
-})
+// app.listen(PORT, () => {
+//   console.log(`listening on ${PORT}`);
+// })
