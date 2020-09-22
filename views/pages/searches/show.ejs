@@ -2,6 +2,11 @@
 <html lang="en">
   <head>
     <title>Book Collection</title>
+    <link rel="stylesheet" href="/styles/reset.css" />
+    <link rel="stylesheet" href="/styles/base.css" />
+    <link rel="stylesheet" href="/styles/modules.css" />
+    <link rel="stylesheet" href="/styles/layout.css" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
   </head>
   <body>
     <main>
@@ -9,7 +14,7 @@
         <% finalBookArray.forEach(book => { %>
           <img src="<%= book.image %>" />
           <h2><%= book.title %></h2>
-          <h3><%= book.author %></h3>
+          <h3>By: <%= book.author %></h3>
           <p><%= book.description%></p>
         <% }) %>
       </ul>
