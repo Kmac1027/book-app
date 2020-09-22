@@ -16,7 +16,7 @@ let pg = require("pg");
 // });
 
 // middleware
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public'));
 app.set('view engine', 'ejs');
 
@@ -32,19 +32,19 @@ function searchHandle(request, response) {
   const searchQuery = request.body.search[0];
   const searchType = request.body.search[1];
   let url = 'https://www.googleapis.com/books/v1/volumes?q=';
-  if(searchType === 'title'){ url += `+intitle:${searchQuery}`}
-  if(searchType === 'author'){ url += `+inauthor:${searchQuery}`}
+  if (searchType === 'title') { url += `+intitle:${searchQuery}` }
+  if (searchType === 'author') { url += `+inauthor:${searchQuery}` }
   superagent.get(url)
     .then(bookInfo => {
       // console.log(bookInfo.body.items[0].volumeInfo.imageLinks);
       const bookArray = bookInfo.body.items;
       const finalBookArray = bookArray.map(book => new Book(book));
-      response.render('pages/searches/show.ejs', {finalBookArray: finalBookArray});
+      response.render('pages/searches/show.ejs', { finalBookArray: finalBookArray });
     })
-    .catch(error) {
-      console.error('error', error); 
-      response.status(500).send('Unable to process request, please try again.');
-    }
+    .catch((error) => {
+    console.error('error', error);
+    response.status(500).send('Unable to process request, please try again.');
+  });
 }
 
 function renderSearchPage(request, response) {
@@ -52,7 +52,7 @@ function renderSearchPage(request, response) {
 }
 
 function homePage(request, response) {
-response.status(200).render('pages/index');
+  response.status(200).render('pages/index');
 }
 
 // Constructor Functions
@@ -60,7 +60,7 @@ function Book(book) {
   this.title = book.volumeInfo.title ? book.volumeInfo.title : 'book not found';
   this.author = book.volumeInfo.authors ? book.volumeInfo.authors : 'author not found';
   this.description = book.volumeInfo.description;
-  this.image = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : "https://i.imgur.com/J5LVHEL.jpg"; 
+  this.image = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : "https://i.imgur.com/J5LVHEL.jpg";
 }
 
 function errorHandler(request, respond) {
