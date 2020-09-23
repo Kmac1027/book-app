@@ -9,7 +9,7 @@
         <p><%= myChosenBook.author %></p>
         <img src="<%= myChosenBook.image_url %>" alt="<%= myChosenBook.title %>">
         <%- include('../../layout/edit.ejs') %>
-        <h2>Update Book</h2>
+        <h2>Delete Book</h2>
         <form action="/delete/<%= myChosenBook.id %>?_method=DELETE" method="post">
             <input type="hidden" name="id" value="<%= myChosenBook.id %>">
           <button type="submit">Delete Book</button>
