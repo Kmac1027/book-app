@@ -8,6 +8,7 @@ const superagent = require('superagent');
 const pg = require('pg');
 
 const app = express();
+
 const client = new pg.Client(process.env.DATABASE_URL);
 client.on('error', error => {
   console.log(error);
@@ -25,7 +26,7 @@ app.get('/search', renderSearchForm);
 app.post('/searches', getBookData);
 app.get(`*`, handleError);
 app.get('/books', addBookToDatabase);
-app.get('/books/:id', singleBookDetails);
+app.get('/books/:book_id', singleBookDetails);
 
 function renderHomePage(request, response) {
   const sql = 'SELECT * FROM books;';
@@ -35,7 +36,7 @@ function renderHomePage(request, response) {
       let myBooks = results.rows;
       response.status(200).render('pages/index', {renderedContent: myBooks});
   })
-  .catch(error =>{
+  .catch(error => {
     console.log(error)
     response.render('pages/error');
   })
@@ -76,9 +77,9 @@ function handleError (request, response) {
 } 
 
 function addBookToDatabase(request, response) {
-  const {authors, title, isbn, image, description} = request.body;
-  const sql = 'INSERT INTO books (author, title, isbn, image_url, description) VALUES ($1,$2,$3,$4,$5) RETURNING id;';
-  const safeValues = [authors, title, isbn, image, description];
+  const {author, title, isbn, image, description} = request.body;
+  const sql = 'INSERT INTO books (author, title, isbn, image_url, description) VALUES ($1, $2, $3, $4, $5) RETURNING id;';
+  const safeValues = [author, title, isbn, image, description];
   client.query(sql, safeValues)
     .then((idFromSQL) => {
       // console.log(idFromSQL);
@@ -90,7 +91,7 @@ function addBookToDatabase(request, response) {
 }
 
 function singleBookDetails(request, response) {
-  const id = request.params.id;
+  const id = request.params.book_id;
   // console.log('in the get one book', id);
   const sql = 'SELECT * FROM books WHERE id=$1;';
   const safeValues = [id];
