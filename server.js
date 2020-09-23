@@ -6,6 +6,7 @@ require('ejs');
 const express = require('express');
 const superagent = require('superagent');
 const pg = require('pg');
+const methodOverride = require('method-override');
 
 const app = express();
 
@@ -19,6 +20,7 @@ let port = process.env.PORT || 3001;
 app.set('view engine', 'ejs');
 app.use(express.static('./public'));
 app.use(express.urlencoded({extended : true}));
+app.use(methodOverride('_method'));
 
 // Routes
 app.get('/', renderHomePage);
@@ -26,6 +28,8 @@ app.get('/search', renderSearchForm);
 app.post('/searches', getBookData);
 app.post('/books', addBookToDatabase);
 app.get('/books/:book_id', singleBookDetails);
+// app.put('/update/:book_id', updateBook)
+// app.delete('delete/:book_id, deleteBook')
 app.get(`*`, handleError);
 
 function renderHomePage(request, response) {
@@ -102,6 +106,20 @@ function singleBookDetails(request, response) {
     response.render('pages/books/detail', { myChosenBook: myChosenBook });
   });
 }
+
+// function updateOneTask(request, response){
+//   const id = request.params.task_id;
+//   const {title, description, status} = request.body;
+//   // go into the database
+//   // find the task with that id
+//   // update that task
+//   // redirect back to the updated task
+
+//   let sql = 'UPDATE tasks SET title=$1, description=$2, status=$3 WHERE id=$4;';
+//   let safeValues = [title, description, status, id];
+//   client.query(sql, safeValues);
+//   response.status(200).redirect(`/task/${id}`);
+// }
 
 // Constructor Functions
 function Book(volumeInfo) {

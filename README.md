@@ -72,3 +72,43 @@ Estimate of time needed to complete: 20 minutes
 Start time: 5:30pm
 Finish time: 5:40pm
 Actual time needed to complete: 10 minutes
+
+### Time Estimate: Lab 12
+
+- Number and name of feature: #1 Build Database & Homepage
+Estimate of time needed to complete: 60 minutes
+Start time: 1:30pm
+Finish time: 2:30pm
+Actual time needed to complete: 60 minutes
+
+- Number and name of feature: #2 Details Button
+Estimate of time needed to complete: 60 minutes
+Start time: 2:30pm
+Finish time: 5:15pm
+Actual time needed to complete: 2 hours 45 minutes
+
+- Number and name of feature: #3 Add New Books
+Estimate of time needed to complete: 60 minutes
+Start time: 5:15pm
+Finish time: 6:30pm
+Actual time needed to complete: 1 hour 15 minutes
+
+- Number and name of feature: #4 Errors & Partials
+Estimate of time needed to complete: 60 minutes
+Start time: 7:30am
+Finish time: 8:45pm
+Actual time needed to complete: 1 hour 15 minutes
+
+### Time Estimate: Lab 13
+
+- Number and name of feature: #1 Update
+Estimate of time needed to complete: 60 minutes
+Start time: 1:30pm
+Finish time: 2:30pm
+Actual time needed to complete: 60 minutes
+
+- Number and name of feature: #2 Delete
+Estimate of time needed to complete: 60 minutes
+Start time: 1:30pm
+Finish time: 2:30pm
+Actual time needed to complete: 60 minutes
