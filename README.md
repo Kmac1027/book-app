@@ -109,6 +109,12 @@ Actual time needed to complete: 60 minutes
 
 - Number and name of feature: #2 Delete
 Estimate of time needed to complete: 60 minutes
-Start time: 1:30pm
-Finish time: 2:30pm
+Start time: 2:30pm
+Finish time: 3:30pm
 Actual time needed to complete: 60 minutes
+
+- Number and name of feature: #3 Styling
+Estimate of time needed to complete: 60 minutes
+Start time: 3:30pm
+Finish time: 4:15pm
+Actual time needed to complete: 45 minutes
