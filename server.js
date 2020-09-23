@@ -28,7 +28,7 @@ app.get('/search', renderSearchForm);
 app.post('/searches', getBookData);
 app.post('/books', addBookToDatabase);
 app.get('/books/:book_id', singleBookDetails);
-// app.put('/update/:book_id', updateBook)
+app.put('/update/:book_id', updateBook)
 // app.delete('delete/:book_id, deleteBook')
 app.get(`*`, handleError);
 
@@ -107,19 +107,29 @@ function singleBookDetails(request, response) {
   });
 }
 
-// function updateOneTask(request, response){
-//   const id = request.params.task_id;
-//   const {title, description, status} = request.body;
-//   // go into the database
-//   // find the task with that id
-//   // update that task
-//   // redirect back to the updated task
+function updateBook(request, response) {
+  const id = request.params.book_id;
+  const {author, title, isbn, image, description} = request.body;
 
-//   let sql = 'UPDATE tasks SET title=$1, description=$2, status=$3 WHERE id=$4;';
-//   let safeValues = [title, description, status, id];
+  let sql = 'UPDATE books SET author=$1, title=$2, isbn=$3, image_url=$4, description=$5 WHERE id=$6;';
+  let safeValues = [author, title, isbn, image, description, id];
+  client.query(sql, safeValues);
+  response.status(200).redirect(`/books/${id}`);
+}
+
+function deleteBooks(request, resonse) {
+
+}
+// function deleteBook(request, response) {
+//   const id = request.params.book_id;
+//   const {author, title, isbn, image, description} = request.body;
+
+//   let sql = 'UPDATE books SET author=$1, title=$2, isbn=$3, image_url=$4, description=$5 WHERE id=$6;';
+//   let safeValues = [author, title, isbn, image, description, id];
 //   client.query(sql, safeValues);
-//   response.status(200).redirect(`/task/${id}`);
+//   response.status(200).redirect('/books/:book_id');
 // }
+
 
 // Constructor Functions
 function Book(volumeInfo) {
