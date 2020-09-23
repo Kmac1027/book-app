@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <%- include('../../layout/header.ejs') %>
+        <%- include('../../layout/head.ejs') %>
     </head>
     <body>
-        <main>
-            <h1><%= myChosenBook.title %></h1>
-            <p><%= myChosenBook.description %></p>
-            <p><%= myChosenBook.author %></p>
-            <img src="<%= myChosenBook.image_url %>" alt="<%= myChosenBook.title %>">
-        </main>
-        <footer>
-            <%- include('../../layout/footer.ejs') %>
-        </footer>
+        <h1><%= myChosenBook.title %></h1>
+        <p><%= myChosenBook.description %></p>
+        <p><%= myChosenBook.author %></p>
+        <img src="<%= myChosenBook.image_url %>" alt="<%= myChosenBook.title %>">
+        <%- include('../../layout/edit.ejs') %>
+    <footer>
+        <%- include('../../layout/footer.ejs') %>
+    </footer>
     </body>
 </html>
