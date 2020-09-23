@@ -11,20 +11,17 @@
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body>
-  <header>
-    <h1>Favorite Book App</h1>
-    <nav><a href="/search">Click Here to Search by Title or Author</a></nav>
-  </header>
-  <div><a href="/search">search for books</a></div>
-  <div><h3>Your Bookshelf</h3></div>
-  <ul>
-    <% bookList.forEach(book => { %>
-      <img src=<%= book.image_url %> >
-      <h2 class="books"><%= book.title %></h2>
-      <h3 class="books"><%= book.author %></h3>
-      <button><a href="/books/<%= book.id %>">View Details</a></button>
-    <% }) %>
-  </ul>
-</main>
+
+  <main>
+    <h2><%= renderedBooks.length %></h2>
+    <ul>
+      <% renderedBooks.forEach(book => { %>
+        <li><img src="<%= book.image %>" alt="<%= book.title %>">
+       <p id="title"> <%= book.title %> </p>
+       <p id="author"><%= book.authors %> </p>
+       <p><%= book.description %></p></li>
+      <% }) %>
+    </ul>
+  </main>
 </body>
 </html>

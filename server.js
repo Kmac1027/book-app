@@ -44,19 +44,29 @@ function getBookData (request, response) {
 
 }
 
-function renderHomePage(request, response) {
-  let sql = `SELECT * FROM books;`;
-  client.query(sql)
-    .then(result => {
-      let allBooks = result.rows;
-      console.log(allBooks);
-      response.status(200).render('pages/index.ejs', {bookList : allBooks});
-    })
+
+function homePage(request, response) {
+  const sql = 'SELECT * FROM books;';
+  return client.query(sql)
+    .then(results => {
+      // console.log(results.rows);
+      let myBooks = results.rows;
+      response.status(200).render('pages/index', {renderedBooks: myBooks});
+  })
+  .catch(error =>{
+    console.log(error)
+    response.render('pages/error');
+  })
 }
 
-function renderSearchPage(request,response) {
-  response.render('pages/searches/new.ejs');
-}
+// Constructor Functions
+function Book(book) {
+  this.title = book.volumeInfo.title ? book.volumeInfo.title : 'book not found';
+  this.author = book.volumeInfo.authors ? book.volumeInfo.authors : 'author not found';
+  this.description = book.volumeInfo.description;
+  book.imageLinks !== undefined ? this.image = book.imageLinks.thumbnail.replace('http:', 'https:') : this.image = 'https://i.imgur.com/J5LVHEL.jpg';
+  // this.image = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : "https://i.imgur.com/J5LVHEL.jpg";
+    }
 
 function handleError (request, response) {
   response.status(404).render('error');
@@ -69,8 +79,6 @@ function Book(volumeInfo) {
   this.description = volumeInfo.description ? volumeInfo.description: `Description Not Found!?`;
   this.isbn = volumeInfo.industryIdentifiers[0].identifier ? volumeInfo.industryIdentifiers[0].identifier: `No number available`;
 }
-
-
 
 
 client.connect()
