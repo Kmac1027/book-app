@@ -39,7 +39,9 @@ h3 {
 
    
 } */
-
+#edit{
+  display: none;
+}
 
 fieldset{
     width: 400px;
