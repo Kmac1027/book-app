@@ -19,6 +19,8 @@ app.get('/', renderHomePage);
 app.get('/search', renderSearchPage);
 app.post('/searches', getBookData);
 app.get(`*`, handleError);
+app.get('/books/:id', singleBookDetails);
+
 
 function getBookData (request, response) {
   const searchQuery = request.body.search[0];
@@ -41,11 +43,13 @@ function getBookData (request, response) {
       response.status(500).send('Something went wrong with your location with your superagent location');
       console.log(url);
     })
-
 }
 
+function renderSearchPage(request, response) {
+  response.status(200).render('pages/searches/new.ejs');
+}
 
-function homePage(request, response) {
+function renderHomePage(request, response) {
   const sql = 'SELECT * FROM books;';
   return client.query(sql)
     .then(results => {
@@ -59,19 +63,18 @@ function homePage(request, response) {
   })
 }
 
+function singleBookDetails(request, response) {
+  const id = request.params.id;
+  console.log('in the get one book', id);
+  const sql = 'SELECT * FROM books WHERE id=$1;';
+  const safeValues = [id];
+  client.query(sql, safeValues).then((results) => {
+    console.log(results);
+    const myChosenBook = results.rows[0];
+    response.render('pages/books/detail', { myChosenBook: myChosenBook });
+  });
+}
 // Constructor Functions
-function Book(book) {
-  this.title = book.volumeInfo.title ? book.volumeInfo.title : 'book not found';
-  this.author = book.volumeInfo.authors ? book.volumeInfo.authors : 'author not found';
-  this.description = book.volumeInfo.description;
-  book.imageLinks !== undefined ? this.image = book.imageLinks.thumbnail.replace('http:', 'https:') : this.image = 'https://i.imgur.com/J5LVHEL.jpg';
-  // this.image = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : "https://i.imgur.com/J5LVHEL.jpg";
-    }
-
-function handleError (request, response) {
-  response.status(404).render('error');
-} 
-
 function Book(volumeInfo) {
   this.url = volumeInfo.imageLinks ? volumeInfo.imageLinks.smallThumbnail.replace(/^http:\/\//i, 'https://'): `https://i.imgur.com/J5LVHEL.jpg`;
   this.title = volumeInfo.title ? volumeInfo.title: ` Title Unavailable!`;
@@ -80,6 +83,9 @@ function Book(volumeInfo) {
   this.isbn = volumeInfo.industryIdentifiers[0].identifier ? volumeInfo.industryIdentifiers[0].identifier: `No number available`;
 }
 
+function handleError (request, response) {
+  response.status(404).render('error');
+} 
 
 client.connect()
   .then(() => {
