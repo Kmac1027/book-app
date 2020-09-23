@@ -1,4 +1,4 @@
-body{
+/* body{
   margin: auto; 
   width: 500px;
   background-color: #ffcb71;
@@ -38,4 +38,35 @@ h3 {
   }
 
    
+} */
+
+
+fieldset{
+    width: 400px;
+    height: 50px;
+    border: 1px solid black;
+    justify-content: center;
+    vertical-align: center;
+    background-color: #d8d8d8;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    display: inline;
+
+}
+
+button {
+width: 400px;
+height: 50px;
+border: 1px solid black;
+justify-content: center;
+vertical-align: center;
+border-radius: 5px;
+margin-bottom: 15px;
+background-color: black;
+color: #dfdfdf;
+}
+
+form{
+text-align: center;
+justify-content: center;
 }
