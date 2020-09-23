@@ -51,7 +51,17 @@ function renderSearchPage(request, response) {
 }
 
 function homePage(request, response) {
-  response.status(200).render('pages/index');
+  const sql = 'SELECT * FROM books;';
+  return client.query(sql)
+    .then(results => {
+      // console.log(results.rows);
+      let myBooks = results.rows;
+      response.status(200).render('pages/index', {renderedBooks: myBooks});
+  })
+  .catch(error =>{
+    console.log(error)
+    response.render('pages/error');
+  })
 }
 
 // Constructor Functions
@@ -59,8 +69,9 @@ function Book(book) {
   this.title = book.volumeInfo.title ? book.volumeInfo.title : 'book not found';
   this.author = book.volumeInfo.authors ? book.volumeInfo.authors : 'author not found';
   this.description = book.volumeInfo.description;
-  this.image = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : "https://i.imgur.com/J5LVHEL.jpg";
-}
+  book.imageLinks !== undefined ? this.image = book.imageLinks.thumbnail.replace('http:', 'https:') : this.image = 'https://i.imgur.com/J5LVHEL.jpg';
+  // this.image = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : "https://i.imgur.com/J5LVHEL.jpg";
+    }
 
 function errorHandler(request, respond) {
   respond.status(404).send('Unable to process request, please try again.');
