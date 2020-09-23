@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book Details</title>
-  <link rel="stylesheet" href="/styles/reset.css" />
-  <link rel="stylesheet" href="/styles/base.css" />
-  <link rel="stylesheet" href="/styles/modules.css" />
-  <link rel="stylesheet" href="/styles/layout.css" />
-</head>
-<body>
-    <h1><%= myChosenBook.title %></h1>
-    <p><%= myChosenBook.description %></p>
-    <p><%= myChosenBook.author %></p>
-    <img src="<%= myChosenBook.image_url %>" alt="<%= myChosenBook.title %>">
-</body>
+    <head>
+        <%- include('../../layout/header.ejs') %>
+    </head>
+    <body>
+        <main>
+            <h1><%= myChosenBook.title %></h1>
+            <p><%= myChosenBook.description %></p>
+            <p><%= myChosenBook.author %></p>
+            <img src="<%= myChosenBook.image_url %>" alt="<%= myChosenBook.title %>">
+        </main>
+        <footer>
+            <%- include('../../layout/footer.ejs') %>
+        </footer>
+    </body>
 </html>
