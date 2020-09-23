@@ -11,15 +11,15 @@
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body>
-
   <main>
-    <h2><%= renderedBooks.length %></h2>
+    <h2>Total Books in Database: <%= renderedContent.length %></h2>
     <ul>
-      <% renderedBooks.forEach(book => { %>
-        <li><img src="<%= book.image %>" alt="<%= book.title %>">
+      <% renderedContent.forEach(book => { %>
+        <li><img src="<%= book.image_url %>" alt="<%= book.title %>">
        <p id="title"> <%= book.title %> </p>
-       <p id="author"><%= book.authors %> </p>
-       <p><%= book.description %></p></li>
+       <p id="author"><%= book.author %> </p>
+       <p><%= book.description %></p>
+       <button><a href="/books/<%= book.id %>">View Details</a></button></li>
       <% }) %>
     </ul>
   </main>
