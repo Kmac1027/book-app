@@ -24,9 +24,9 @@ app.use(express.urlencoded({extended : true}));
 app.get('/', renderHomePage);
 app.get('/search', renderSearchForm);
 app.post('/searches', getBookData);
-app.get(`*`, handleError);
-app.get('/books', addBookToDatabase);
+app.post('/books', addBookToDatabase);
 app.get('/books/:book_id', singleBookDetails);
+app.get(`*`, handleError);
 
 function renderHomePage(request, response) {
   const sql = 'SELECT * FROM books;';
