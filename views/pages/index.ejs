@@ -11,11 +11,16 @@
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body>
-  <header>
-    <h1>Favorite Book App</h1>
-    <nav><a href="searches/new">Click Here to Search by Title or Author</a></nav>
-  </header>
-  <main></main>
-  <footer></footer>
+  <main>
+    <h2><%= renderedBooks.length %></h2>
+    <ul>
+      <% renderedBooks.forEach(book => { %>
+        <li><img src="<%= book.image %>" alt="<%= book.title %>">
+       <p id="title"> <%= book.title %> </p>
+       <p id="author"><%= book.authors %> </p>
+       <p><%= book.description %></p></li>
+      <% }) %>
+    </ul>
+  </main>
 </body>
 </html>
