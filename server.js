@@ -28,8 +28,8 @@ app.get('/search', renderSearchForm);
 app.post('/searches', getBookData);
 app.post('/books', addBookToDatabase);
 app.get('/books/:book_id', singleBookDetails);
-app.put('/update/:book_id', updateBook)
-// app.delete('delete/:book_id, deleteBook')
+app.put('/update/:book_id', updateBook);
+app.delete('/delete/:book_id', deleteBook);
 app.get(`*`, handleError);
 
 function renderHomePage(request, response) {
@@ -117,19 +117,14 @@ function updateBook(request, response) {
   response.status(200).redirect(`/books/${id}`);
 }
 
-function deleteBooks(request, resonse) {
+function deleteBook(request, response) {
+  const id = request.params.book_id;
 
+  let sql = 'DELETE FROM books WHERE id=$1;';
+  let safeValues = [id];
+  client.query(sql, safeValues);
+  response.status(200).redirect('/');
 }
-// function deleteBook(request, response) {
-//   const id = request.params.book_id;
-//   const {author, title, isbn, image, description} = request.body;
-
-//   let sql = 'UPDATE books SET author=$1, title=$2, isbn=$3, image_url=$4, description=$5 WHERE id=$6;';
-//   let safeValues = [author, title, isbn, image, description, id];
-//   client.query(sql, safeValues);
-//   response.status(200).redirect('/books/:book_id');
-// }
-
 
 // Constructor Functions
 function Book(volumeInfo) {
