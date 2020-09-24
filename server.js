@@ -63,12 +63,6 @@ function getBookData (request, response) {
       const bookArray = data.body.items;
       const finalBookArray = bookArray.map(book => new Book(book.volumeInfo));
       response.render('pages/searches/show', {finalBookArray: finalBookArray});
-      
-      // let SQL = `INSERT INTO books (author, title, isbn, image_url, description) VALUES ($1, $2, $3, $4, $5);`;
-      // let safeValues = [finalBookArray[0].author, finalBookArray[0].title, finalBookArray[0].isbn, finalBookArray[0].url, finalBookArray[0].description];
-      // client.query(SQL, safeValues)
-      //   .then(data => console.log(data + 'was stored'));
-  
     })
     .catch(error => {
       console.log(error);
@@ -81,9 +75,9 @@ function handleError (request, response) {
 } 
 
 function addBookToDatabase(request, response) {
-  const {author, title, isbn, image, description} = request.body;
+  const {author, title, isbn, image_url, description} = request.body;
   const sql = 'INSERT INTO books (author, title, isbn, image_url, description) VALUES ($1, $2, $3, $4, $5) RETURNING id;';
-  const safeValues = [author, title, isbn, image, description];
+  const safeValues = [author, title, isbn, image_url, description];
   client.query(sql, safeValues)
     .then((idFromSQL) => {
       // console.log(idFromSQL);
@@ -109,10 +103,10 @@ function singleBookDetails(request, response) {
 
 function updateBook(request, response) {
   const id = request.params.book_id;
-  const {author, title, isbn, image, description} = request.body;
+  const {author, title, isbn, image_url, description} = request.body;
 
   let sql = 'UPDATE books SET author=$1, title=$2, isbn=$3, image_url=$4, description=$5 WHERE id=$6;';
-  let safeValues = [author, title, isbn, image, description, id];
+  let safeValues = [author, title, isbn, image_url, description, id];
   client.query(sql, safeValues);
   response.status(200).redirect(`/books/${id}`);
 }
@@ -128,7 +122,7 @@ function deleteBook(request, response) {
 
 // Constructor Functions
 function Book(volumeInfo) {
-  this.url = volumeInfo.imageLinks ? volumeInfo.imageLinks.smallThumbnail.replace(/^http:\/\//i, 'https://'): `https://i.imgur.com/J5LVHEL.jpg`;
+  this.image_url = volumeInfo.imageLinks ? volumeInfo.imageLinks.smallThumbnail.replace(/^http:\/\//i, 'https://'): `https://i.imgur.com/J5LVHEL.jpg`;
   this.title = volumeInfo.title ? volumeInfo.title: ` Title Unavailable!`;
   this.author = volumeInfo.authors ? volumeInfo.authors[0]: `Author Unavailable!`;
   this.description = volumeInfo.description ? volumeInfo.description: `Description Not Found!?`;
